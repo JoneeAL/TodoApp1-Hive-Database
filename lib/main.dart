@@ -20,9 +20,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'simple todo app Hive Database',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+       brightness: Brightness.dark,
+    primaryColor: Color.fromARGB(255, 8, 74, 112),
       ),
       home: MyHomePage(),
     );

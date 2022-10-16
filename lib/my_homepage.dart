@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todoapp1/task_model.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:todoapp1/main.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -22,30 +21,53 @@ class _MyHomePageState extends State<MyHomePage> {
     todoBox.add(Task(task: inputTodo.task));
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     // notesBox.clear();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Simple TODO app using Hive'),
+        title: Text(' AttGöra Lista Hive Databas'),
+        backgroundColor: Color.fromARGB(255, 25, 70, 148),
       ),
-      body: ValueListenableBuilder(
+      body: 
+      ValueListenableBuilder(
           valueListenable: Hive.box<Task>('TODOs').listenable(),
+          // ignore: no_leading_underscores_for_local_identifiers
           builder: (context, Box<Task> _notesBox, _) {
             todoBox = _notesBox;
-            return ListView.builder(
-                itemCount: _notesBox.values.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final todo = todoBox.getAt(index);
-                  return ListTile(
-                    title: Text(todo!.task),
-                    onLongPress: () => todoBox.deleteAt(index),
-                  );
-                });
+            color: Theme.of(context).primaryColor;
+            return SizedBox(
+              width: 400,
+            height: 400,
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+              child: ListView.builder(
+                  itemCount: _notesBox.values.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final todo = todoBox.getAt(index);
+                    return Card(
+                      child: ListTile(
+                        tileColor: Color.fromARGB(255, 9, 64, 106),
+                        title: Text(
+                          todo!.task,
+                          style: TextStyle(color: Color.fromARGB(255, 229, 232, 236), fontSize: 20.0),
+                          ),
+                        onLongPress: () => todoBox.deleteAt(index),
+                        
+                      ),
+                    );
+                  }
+                  ),
+            )
+            )
+            );
           }),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _simpleDialog(),
-        tooltip: 'AddNewTODOTask',
+        tooltip: 'Lägg till en ny Antekning',
         child: Icon(Icons.add),
       ),
     );
@@ -56,7 +78,12 @@ class _MyHomePageState extends State<MyHomePage> {
       context: context,
       builder: (BuildContext context) {
         return SimpleDialog(
-          title: const Text('New TODO Task'),
+          title: const Text('Ny Anteckning'),
+          titleTextStyle: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20.0,
+            color: Color.fromARGB(255, 17, 115, 227),
+          ),
           children: <Widget>[
             Center(
               child: Padding(
@@ -66,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     TextField(
                       decoration: InputDecoration(
-                        hintText: 'TODO Task',
+                        hintText: 'Lägg till Anteckning',
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Colors.blue,
@@ -83,21 +110,22 @@ class _MyHomePageState extends State<MyHomePage> {
                         children: [
                           TextButton(
                             style: ButtonStyle(
-                              foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+                              foregroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(255, 176, 74, 15)),
+                              
                             ),
                             onPressed: () {
                               _task = Task(task: inputTask);
                               _addTodo(_task);
                               Navigator.pop(context);
                             },
-                            child: Text('Add'),
+                            child: Text('Lägg till'),
                           ),
                           TextButton(
                             style: ButtonStyle(
                               foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),
                             ),
                             onPressed: () => Navigator.pop(context),
-                            child: Text('Cancel'),
+                            child: Text('Stäng'),
                           )
                         ],
                       ),
